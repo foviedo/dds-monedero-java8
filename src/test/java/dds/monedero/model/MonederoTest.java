@@ -1,5 +1,9 @@
 package dds.monedero.model;
 
+import static org.junit.Assert.assertEquals;
+
+import java.math.BigDecimal;
+
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,44 +22,45 @@ public class MonederoTest {
 
   @Test
   public void Poner() {
-    cuenta.poner(1500);
+    cuenta.poner(new BigDecimal(1500));
+    assertEquals(new BigDecimal(1500),cuenta.getSaldo());
   }
 
   @Test(expected = MontoNegativoException.class)
   public void PonerMontoNegativo() {
-    cuenta.poner(-1500);
+    cuenta.poner(new BigDecimal(-1500));
   }
 
   @Test
   public void TresDepositos() {
-    cuenta.poner(1500);
-    cuenta.poner(456);
-    cuenta.poner(1900);
+    cuenta.poner(new BigDecimal(1500));
+    cuenta.poner(new BigDecimal(456));
+    cuenta.poner(new BigDecimal(1900));
   }
 
   @Test(expected = MaximaCantidadDepositosException.class)
   public void MasDeTresDepositos() {
-    cuenta.poner(1500);
-    cuenta.poner(456);
-    cuenta.poner(1900);
-    cuenta.poner(245);
+    cuenta.poner(new BigDecimal(1500));
+    cuenta.poner(new BigDecimal(456));
+    cuenta.poner(new BigDecimal(1900));
+    cuenta.poner(new BigDecimal(245));
   }
 
   @Test(expected = SaldoMenorException.class)
   public void ExtraerMasQueElSaldo() {
-    cuenta.setSaldo(90);
-    cuenta.sacar(1001);
+    cuenta.setSaldo(new BigDecimal(90));
+    cuenta.sacar(new BigDecimal(1001));
   }
 
   @Test(expected = MaximoExtraccionDiarioException.class)
   public void ExtraerMasDe1000() {
-    cuenta.setSaldo(5000);
-    cuenta.sacar(1001);
+    cuenta.setSaldo(new BigDecimal(5000));
+    cuenta.sacar(new BigDecimal(1001));
   }
 
   @Test(expected = MontoNegativoException.class)
   public void ExtraerMontoNegativo() {
-    cuenta.sacar(-500);
+    cuenta.sacar(new BigDecimal(-500));
   }
 
 }
